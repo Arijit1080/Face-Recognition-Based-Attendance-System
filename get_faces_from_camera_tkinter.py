@@ -1,13 +1,3 @@
-# Copyright (C) 2018-2021 coneypo
-# SPDX-License-Identifier: MIT
-
-# Author:   coneypo
-# Blog:     http://www.cnblogs.com/AdaminXie
-# GitHub:   https://github.com/coneypo/Dlib_face_recognition_from_camera
-# Mail:     coneypo@foxmail.com
-
-# 人脸录入 Tkinter GUI / Face register GUI with tkinter
-
 import dlib
 import numpy as np
 import cv2
@@ -19,16 +9,16 @@ import tkinter as tk
 from tkinter import font as tkFont
 from PIL import Image, ImageTk
 
-# Dlib 正向人脸检测器 / Use frontal face detector of Dlib
+# Use frontal face detector of Dlib
 detector = dlib.get_frontal_face_detector()
 
 
 class Face_Register:
     def __init__(self):
 
-        self.current_frame_faces_cnt = 0  # 当前帧中人脸计数器 / cnt for counting faces in current frame
-        self.existing_faces_cnt = 0  # 已录入的人脸计数器 / cnt for counting saved faces
-        self.ss_cnt = 0  # 录入 person_n 人脸时图片计数器 / cnt for screen shots
+        self.current_frame_faces_cnt = 0  #  cnt for counting faces in current frame
+        self.existing_faces_cnt = 0  # cnt for counting saved faces
+        self.ss_cnt = 0  #  cnt for screen shots
 
         # Tkinter GUI
         self.win = tk.Tk()
@@ -84,9 +74,9 @@ class Face_Register:
         self.cap = cv2.VideoCapture(0)  # Get video stream from camera
         # self.cap = cv2.VideoCapture("test.mp4")   # Input local video
 
-    # 删除之前存的人脸数据文件夹 / Delete old face folders
+    #  Delete old face folders
     def GUI_clear_data(self):
-        # 删除之前存的人脸数据文件夹, 删除 "/data_faces_from_camera/person_x/"...
+        #  "/data_faces_from_camera/person_x/"...
         folders_rd = os.listdir(self.path_photos_from_camera)
         for i in range(len(folders_rd)):
             shutil.rmtree(self.path_photos_from_camera + folders_rd[i])
@@ -154,18 +144,18 @@ class Face_Register:
 
         self.frame_right_info.pack()
 
-    # 新建保存人脸图像文件和数据 CSV 文件夹 / Mkdir for saving photos and csv
+    # Mkdir for saving photos and csv
     def pre_work_mkdir(self):
-        # 新建文件夹 / Create folders to save face images and csv
+        # Create folders to save face images and csv
         if os.path.isdir(self.path_photos_from_camera):
             pass
         else:
             os.mkdir(self.path_photos_from_camera)
 
-    # 如果有之前录入的人脸, 在之前 person_x 的序号按照 person_x+1 开始录入 / Start from person_x+1
+    # Start from person_x+1
     def check_existing_faces_cnt(self):
         if os.listdir("data/data_faces_from_camera/"):
-            # 获取已录入的最后一个人脸序号 / Get the order of latest person
+            # Get the order of latest person
             person_list = os.listdir("data/data_faces_from_camera/")
             person_num_list = []
             for person in person_list:
@@ -173,14 +163,14 @@ class Face_Register:
                 person_num_list.append(int(person_order))
             self.existing_faces_cnt = max(person_num_list)
 
-        # 如果第一次存储或者没有之前录入的人脸, 按照 person_1 开始录入 / Start from person_1
+        # Start from person_1
         else:
             self.existing_faces_cnt = 0
 
-    # 更新 FPS / Update FPS of Video stream
+    # Update FPS of Video stream
     def update_fps(self):
         now = time.time()
-        # 每秒刷新 fps / Refresh fps per second
+        #  Refresh fps per second
         if str(self.start_time).split(".")[0] != str(now).split(".")[0]:
             self.fps_show = self.fps
         self.start_time = now
@@ -191,7 +181,7 @@ class Face_Register:
         self.label_fps_info["text"] = str(self.fps.__round__(2))
 
     def create_face_folder(self):
-        # 新建存储人脸的文件夹 / Create the folders for saving faces
+        #  Create the folders for saving faces
         self.existing_faces_cnt += 1
         if self.input_name_char:
             self.current_face_dir = self.path_photos_from_camera + \
@@ -202,9 +192,9 @@ class Face_Register:
                                     "person_" + str(self.existing_faces_cnt)
         os.makedirs(self.current_face_dir)
         self.log_all["text"] = "\"" + self.current_face_dir + "/\" created!"
-        logging.info("\n%-40s %s", "新建的人脸文件夹 / Create folders:", self.current_face_dir)
+        logging.info("\n%-40s %s", "Create folders:", self.current_face_dir)
 
-        self.ss_cnt = 0  # 将人脸计数器清零 / Clear the cnt of screen shots
+        self.ss_cnt = 0  #  Clear the cnt of screen shots
         self.face_folder_created_flag = True  # Face folder already created
 
     def save_current_face(self):
@@ -212,7 +202,7 @@ class Face_Register:
             if self.current_frame_faces_cnt == 1:
                 if not self.out_of_range_flag:
                     self.ss_cnt += 1
-                    # 根据人脸大小生成空的图像 / Create blank image according to the size of face detected
+                    #  Create blank image according to the size of face detected
                     self.face_ROI_image = np.zeros((int(self.face_ROI_height * 2), self.face_ROI_width * 2, 3),
                                                    np.uint8)
                     for ii in range(self.face_ROI_height * 2):
@@ -241,7 +231,7 @@ class Face_Register:
         except:
             print("Error: No video input!!!")
 
-    # 获取人脸 / Main process of face detection and saving
+    #  Main process of face detection and saving
     def process(self):
         ret, self.current_frame = self.get_frame()
         faces = detector(self.current_frame, 0)
@@ -249,19 +239,19 @@ class Face_Register:
         if ret:
             self.update_fps()
             self.label_face_cnt["text"] = str(len(faces))
-            # 检测到人脸 / Face detected
+            #  Face detected
             if len(faces) != 0:
                 # 矩形框 / Show the ROI of faces
                 for k, d in enumerate(faces):
                     self.face_ROI_width_start = d.left()
                     self.face_ROI_height_start = d.top()
-                    # 计算矩形框大小 / Compute the size of rectangle box
+                    #  Compute the size of rectangle box
                     self.face_ROI_height = (d.bottom() - d.top())
                     self.face_ROI_width = (d.right() - d.left())
                     self.hh = int(self.face_ROI_height / 2)
                     self.ww = int(self.face_ROI_width / 2)
 
-                    # 判断人脸矩形框是否超出 480x640 / If the size of ROI > 480x640
+                    # If the size of ROI > 480x640
                     if (d.right() + self.ww) > 640 or (d.bottom() + self.hh > 480) or (d.left() - self.ww < 0) or (
                             d.top() - self.hh < 0):
                         self.label_warning["text"] = "OUT OF RANGE"
