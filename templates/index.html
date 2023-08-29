@@ -60,11 +60,11 @@
         </div>
         <hr>
     
-    <form action="/attendance" method="POST">
-        <label for="selected_date">Select Date: </label>
-        <input type="date" id="selected_date" name="selected_date" required>
-        <button type="submit" class="btn btn-outline-success">Show attendance</button>
-    </form>
+        <form action="/attendance" method="POST" id="attn-form">
+            <label for="selected_date">Select Date: </label>
+            <input type="date" id="selected_date" name="selected_date" required value="{{ selected_date }}">
+            <button type="submit" class="btn btn-outline-success">Show attendance</button>
+        </form>
 
     <div class="container mt-5">
         {% if no_data %}

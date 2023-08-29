@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template('index.html', no_data=False)
+    return render_template('index.html', selected_date='', no_data=False)
 
 @app.route('/attendance', methods=['POST'])
 def attendance():
@@ -23,9 +23,9 @@ def attendance():
     conn.close()
 
     if not attendance_data:
-        return render_template('index.html', no_data=True)
+        return render_template('index.html', selected_date=selected_date, no_data=True)
     
-    return render_template('index.html', attendance_data=attendance_data)
+    return render_template('index.html', selected_date=selected_date, attendance_data=attendance_data)
 
 if __name__ == '__main__':
     app.run(debug=True)

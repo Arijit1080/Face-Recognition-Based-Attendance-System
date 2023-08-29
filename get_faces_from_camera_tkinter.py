@@ -241,7 +241,7 @@ class Face_Register:
             self.label_face_cnt["text"] = str(len(faces))
             #  Face detected
             if len(faces) != 0:
-                # 矩形框 / Show the ROI of faces
+                #   Show the ROI of faces
                 for k, d in enumerate(faces):
                     self.face_ROI_width_start = d.left()
                     self.face_ROI_height_start = d.top()
