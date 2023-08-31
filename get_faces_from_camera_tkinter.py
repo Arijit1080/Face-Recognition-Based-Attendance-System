@@ -22,7 +22,7 @@ class Face_Register:
 
         # Tkinter GUI
         self.win = tk.Tk()
-        self.win.title("Face Register @coneypo")
+        self.win.title("Face Register")
 
         # PLease modify window size here if needed
         self.win.geometry("1300x550")
@@ -214,7 +214,7 @@ class Face_Register:
                     self.face_ROI_image = cv2.cvtColor(self.face_ROI_image, cv2.COLOR_BGR2RGB)
 
                     cv2.imwrite(self.current_face_dir + "/img_face_" + str(self.ss_cnt) + ".jpg", self.face_ROI_image)
-                    logging.info("%-40s %s/img_face_%s.jpg", "写入本地 / Save into：",
+                    logging.info("%-40s %s/img_face_%s.jpg", "Save into：",
                                  str(self.current_face_dir), str(self.ss_cnt) + ".jpg")
                 else:
                     self.log_all["text"] = "Please do not out of range!"
