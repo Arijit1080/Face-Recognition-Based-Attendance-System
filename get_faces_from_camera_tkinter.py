@@ -25,7 +25,7 @@ class Face_Register:
         self.win.title("Face Register")
 
         # PLease modify window size here if needed
-        self.win.geometry("1300x550")
+        self.win.geometry("1000x500")
 
         # GUI left part
         self.frame_left_camera = tk.Frame(self.win)
@@ -72,6 +72,7 @@ class Face_Register:
         self.start_time = time.time()
 
         self.cap = cv2.VideoCapture(0)  # Get video stream from camera
+
         # self.cap = cv2.VideoCapture("test.mp4")   # Input local video
 
     #  Delete old face folders
@@ -96,13 +97,11 @@ class Face_Register:
                  text="Face register",
                  font=self.font_title).grid(row=0, column=0, columnspan=3, sticky=tk.W, padx=2, pady=20)
 
-        tk.Label(self.frame_right_info,
-                 text="FPS: ").grid(row=1, column=0, columnspan=2, sticky=tk.W, padx=5, pady=2)
-        self.label_fps_info.grid(row=1, column=2, sticky=tk.W, padx=5, pady=2)
+        tk.Label(self.frame_right_info, text="FPS: ").grid(row=1, column=0, sticky=tk.W, padx=5, pady=2)
+        self.label_fps_info.grid(row=1, column=1, sticky=tk.W, padx=5, pady=2)
 
-        tk.Label(self.frame_right_info,
-                 text="Faces in database: ").grid(row=2, column=0, columnspan=2, sticky=tk.W, padx=5, pady=2)
-        self.label_cnt_face_in_database.grid(row=2, column=2, columnspan=3, sticky=tk.W, padx=5, pady=2)
+        tk.Label(self.frame_right_info, text="Faces in database: ").grid(row=2, column=0, sticky=tk.W, padx=5, pady=2)
+        self.label_cnt_face_in_database.grid(row=2, column=1, sticky=tk.W, padx=5, pady=2)
 
         tk.Label(self.frame_right_info,
                  text="Faces in current frame: ").grid(row=3, column=0, columnspan=2, sticky=tk.W, padx=5, pady=2)
@@ -227,6 +226,7 @@ class Face_Register:
         try:
             if self.cap.isOpened():
                 ret, frame = self.cap.read()
+                frame = cv2.resize(frame, (640,480))
                 return ret, cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         except:
             print("Error: No video input!!!")
