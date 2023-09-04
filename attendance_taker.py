@@ -207,7 +207,6 @@ class Face_Recognizer:
                     self.current_frame_face_position_list = []
 
                     if "unknown" in self.current_frame_face_name_list:
-                        logging.debug(" reclassify_interval_cnt 计数")
                         self.reclassify_interval_cnt += 1
 
                     if self.current_frame_face_cnt != 0:
