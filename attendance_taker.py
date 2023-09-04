@@ -77,7 +77,6 @@ class Face_Recognizer:
         self.last_current_frame_centroid_e_distance = 0
 
         #  Reclassify after 'reclassify_interval' frames
-        #  "unknown" 的脸, 将在 reclassify_interval_cnt 计数到 reclassify_interval 后, 对于人脸进行重新识别
         self.reclassify_interval_cnt = 0
         self.reclassify_interval = 10
 
