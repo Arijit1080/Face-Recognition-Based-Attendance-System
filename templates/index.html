@@ -3,15 +3,15 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Attendance Tracker Sheet</title>
+        <title>Attendance Record</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
         <style>
             body {
-                font-family: Arial, sans-serif;
-                background-color: #f4f4f4;
+                font-family: Georgia;
+                background-color: white;
             }
             form {
-                margin-top: 50px;
+                margin-top: 20px;
                 display: flex;
                 flex-direction: column;
                 align-items: center;
@@ -19,7 +19,7 @@
                 padding: 20px;
                 border-radius: 5px;
                 box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-                background-color: #fff;
+                background-color: #b3ffb3;
                 width: 50%;
                 margin-left: auto;
                 margin-right: auto;
@@ -28,6 +28,7 @@
                 font-size: 20px;
                 margin-bottom: 10px;
                 color: #333;
+                background-color: #b3ffb3;
             }
             input[type="date"] {
                 padding: 10px 20px;
@@ -42,7 +43,7 @@
             }
             button[type="submit"] {
                 background-color: #333;
-                color: #fff;
+                color:#b3ffb3;
                 border: none;
                 padding: 10px;
                 border-radius: 5px;
@@ -52,14 +53,34 @@
             button[type="submit"]:hover {
                 background-color: #555;
             }
+            .jumbotron{
+            display:flex;
+            justify-content:center;
+            align-items: center;
+            color:green;
+
+
+            }
+            .logo{
+
+            max-width: 100px; /* Adjust the max-width as needed */
+            height: auto;
+           }
+
+
+
         </style>
     </head>
     <body>
-        <div class="jumbotron text-center">
-            <h1 class="display-4">Attendance Tracker Sheet</h1>
-        </div>
+
+            <div class="logo">
+            <img src="data:image/png;base64,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" alt="" >
+            </div>
+
         <hr>
-    
+        <div class="jumbotron ">
+            <h1 class="display-4">Attendance Record</h1>
+        </div>
         <form action="/attendance" method="POST" id="attn-form">
             <label for="selected_date">Select Date: </label>
             <input type="date" id="selected_date" name="selected_date" required value="{{ selected_date }}">
@@ -72,13 +93,14 @@
             No attendance data available for the selected date.
         </div>
         {% endif %}
-        
-        <h2>Attendance Data Table</h2>
+
+        <h2 style="color: #00802b ">Attendance Data</h2>
         <table class="table">
             <thead>
                 <tr>
                     <th scope="col">Name</th>
                     <th scope="col">Time</th>
+
                 </tr>
             </thead>
             <tbody>
@@ -86,34 +108,13 @@
                 <tr>
                     <td>{{ name }}</td>
                     <td>{{ time }}</td>
+
+
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
-
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 </body>
 </html>
