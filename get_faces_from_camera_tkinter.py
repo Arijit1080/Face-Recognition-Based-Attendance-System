@@ -16,6 +16,7 @@ detector = dlib.get_frontal_face_detector()
 class Face_Register:
     def __init__(self):
 
+        self.input_student_id = 0
         self.current_frame_faces_cnt = 0  #  cnt for counting faces in current frame
         self.existing_faces_cnt = 0  # cnt for counting saved faces
         self.ss_cnt = 0  #  cnt for screen shots
@@ -37,6 +38,8 @@ class Face_Register:
         self.frame_right_info = tk.Frame(self.win)
         self.label_cnt_face_in_database = tk.Label(self.frame_right_info, text=str(self.existing_faces_cnt))
         self.label_fps_info = tk.Label(self.frame_right_info, text="")
+        self.input_student_id = tk.Entry(self.frame_right_info) # Create an Entry widget
+        self.input_student_id_int = ""
         self.input_name = tk.Entry(self.frame_right_info)
         self.input_name_char = ""
         self.label_warning = tk.Label(self.frame_right_info)
@@ -47,7 +50,7 @@ class Face_Register:
         self.font_step_title = tkFont.Font(family='Helvetica', size=15, weight='bold')
         self.font_warning = tkFont.Font(family='Helvetica', size=15, weight='bold')
 
-        self.path_photos_from_camera = "data/data_faces_from_camera/"
+        self.path_photos_from_camera = "datalib/data_faces_from_camera/"
         self.current_face_dir = ""
         self.font = cv2.FONT_ITALIC
 
@@ -91,6 +94,10 @@ class Face_Register:
         self.input_name_char = self.input_name.get()
         self.create_face_folder()
         self.label_cnt_face_in_database['text'] = str(self.existing_faces_cnt)
+    def GUI_get_input_student_id(self):
+        self.input_student_id_int = self.input_student_id.get()
+        self.label_cnt_face_in_database['text'] = str(self.existing_faces_cnt)
+
 
     def GUI_info(self):
         tk.Label(self.frame_right_info,
@@ -116,30 +123,43 @@ class Face_Register:
         tk.Button(self.frame_right_info,
                   text='Clear',
                   command=self.GUI_clear_data).grid(row=6, column=0, columnspan=3, sticky=tk.W, padx=5, pady=2)
-
-        # Step 2: Input name and create folders for face
+        # Step 2: Enter Student ID
         tk.Label(self.frame_right_info,
                  font=self.font_step_title,
-                 text="Step 2: Input name").grid(row=7, column=0, columnspan=2, sticky=tk.W, padx=5, pady=20)
+                 text="Step 2: Enter Student ID").grid(row=7, column=0, columnspan=2, sticky=tk.W, padx=5, pady=20)
 
-        tk.Label(self.frame_right_info, text="Name: ").grid(row=8, column=0, sticky=tk.W, padx=5, pady=0)
-        self.input_name.grid(row=8, column=1, sticky=tk.W, padx=0, pady=2)
+        tk.Label(self.frame_right_info, text="Student ID: ").grid(row=8, column=0, sticky=tk.W, padx=5, pady=0)
+        self.input_student_id = tk.Entry(self.frame_right_info)
+        self.input_student_id.grid(row=8, column=1, sticky=tk.W, padx=0, pady=2)
+        tk.Button(self.frame_right_info,
+                  text='Input',
+                  command=self.GUI_get_input_student_id).grid(row=8, column=2, padx=5)
+
+        # Step 3: Input name and create folders for face
+        tk.Label(self.frame_right_info,
+                 font=self.font_step_title,
+                 text="Step 3: Input name").grid(row=9, column=0, columnspan=2, sticky=tk.W, padx=5, pady=20)
+
+        tk.Label(self.frame_right_info, text="Name: ").grid(row=10, column=0, sticky=tk.W, padx=5, pady=0)
+        self.input_name = tk.Entry(self.frame_right_info)
+        self.input_name.grid(row=11, column=1, sticky=tk.W, padx=0, pady=2)
 
         tk.Button(self.frame_right_info,
                   text='Input',
-                  command=self.GUI_get_input_name).grid(row=8, column=2, padx=5)
+                  command=self.GUI_get_input_name).grid(row=11, column=2, padx=5)
+
 
         # Step 3: Save current face in frame
         tk.Label(self.frame_right_info,
                  font=self.font_step_title,
-                 text="Step 3: Save face image").grid(row=9, column=0, columnspan=2, sticky=tk.W, padx=5, pady=20)
+                 text="Step 4: Save face image").grid(row=12, column=0, columnspan=2, sticky=tk.W, padx=5, pady=20)
 
         tk.Button(self.frame_right_info,
                   text='Save current face',
-                  command=self.save_current_face).grid(row=10, column=0, columnspan=3, sticky=tk.W)
+                  command=self.save_current_face).grid(row=13, column=0, columnspan=3, sticky=tk.W)
 
         # Show log in GUI
-        self.log_all.grid(row=11, column=0, columnspan=20, sticky=tk.W, padx=5, pady=20)
+        self.log_all.grid(row=14, column=0, columnspan=20, sticky=tk.W, padx=5, pady=20)
 
         self.frame_right_info.pack()
 
@@ -153,9 +173,9 @@ class Face_Register:
 
     # Start from person_x+1
     def check_existing_faces_cnt(self):
-        if os.listdir("data/data_faces_from_camera/"):
+        if os.listdir("datalib/data_faces_from_camera/"):
             # Get the order of latest person
-            person_list = os.listdir("data/data_faces_from_camera/")
+            person_list = os.listdir("datalib/data_faces_from_camera/")
             person_num_list = []
             for person in person_list:
                 person_order = person.split('_')[1].split('_')[0]
